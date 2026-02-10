@@ -1,6 +1,8 @@
-from google import genai
-from typing import Dict, List
+from typing import Dict
 import json
+
+import google.generativeai as genai
+
 from config import GEMINI_API_KEY, GEMINI_MODEL
 
 SYSTEM_PROMPT = """
@@ -25,7 +27,6 @@ FALLBACK = {
     "logo_prompt": "Minimal floral monogram logo, soft pastel palette, modern serif.",
     "brand_score": 86,
 }
-client = genai.Client(api_key=GEMINI_API_KEY)
 
 async def generate_brand_content(payload: Dict[str, str]) -> Dict:
     if not GEMINI_API_KEY:
@@ -41,22 +42,28 @@ async def generate_brand_content(payload: Dict[str, str]) -> Dict:
     prompt = SYSTEM_PROMPT + "\nUser input: " + json.dumps(user_prompt)
 
     try:
-        response = client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=prompt,
-        )
-
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel(GEMINI_MODEL)
+        response = model.generate_content(prompt)
         text = (response.text or "").strip()
-
-        if text.startswith("```"):
-            text = text.strip("`")
-            text = text.replace("json", "", 1).strip()
-
-        return json.loads(text)
-
-    except Exception as e:
-        print("🔥 GEMINI ERROR:", e)
+    except Exception:
         return FALLBACK
-    
 
+    if not text:
+        return FALLBACK
+
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        text = "\n".join(lines).strip()
+        if text.lower().startswith("json"):
+            text = text[4:].strip()
+
+    try:
+        return json.loads(text)
+    except Exception:
+        return FALLBACK
 
