@@ -1,6 +1,5 @@
 from typing import Dict
 import json
-import logging
 
 import google.generativeai as genai
 
@@ -31,7 +30,6 @@ FALLBACK = {
 
 async def generate_brand_content(payload: Dict[str, str]) -> Dict:
     if not GEMINI_API_KEY:
-        logging.warning("GEMINI_API_KEY is missing; using fallback response.")
         return FALLBACK
 
     user_prompt = {
@@ -48,9 +46,7 @@ async def generate_brand_content(payload: Dict[str, str]) -> Dict:
         model = genai.GenerativeModel(GEMINI_MODEL)
         response = model.generate_content(prompt)
         text = (response.text or "").strip()
-    except Exception as exc:
-        logging.error("Gemini request failed: %s", exc)
-        logging.exception("Gemini request failed; using fallback response.")
+    except Exception:
         return FALLBACK
 
     if not text:
