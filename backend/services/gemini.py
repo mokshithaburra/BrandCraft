@@ -48,7 +48,8 @@ async def generate_brand_content(payload: Dict[str, str]) -> Dict:
         model = genai.GenerativeModel(GEMINI_MODEL)
         response = model.generate_content(prompt)
         text = (response.text or "").strip()
-    except Exception:
+    except Exception as exc:
+        logging.error("Gemini request failed: %s", exc)
         logging.exception("Gemini request failed; using fallback response.")
         return FALLBACK
 
