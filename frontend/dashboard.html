@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrandCraft Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ballet&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dashboard">
+  <header class="topbar">
+    <a class="logo" href="index.html">
+      <span class="logo-brand">Brand</span><span class="logo-craft">Craft</span>
+    </a>
+    <div class="topbar-actions">
+      <button class="ghost-button" id="exportKit">Export Brand Kit</button>
+    </div>
+  </header>
+
+  <main class="dashboard-grid">
+    <section class="panel form-panel">
+      <h2>Tell us about your brand</h2>
+      <form id="brandForm">
+        <label>
+          Business Idea
+          <input type="text" name="businessIdea" required placeholder="Eco-friendly skincare line" />
+        </label>
+        <label>
+          Industry
+          <input type="text" name="industry" required placeholder="Beauty / Wellness" />
+        </label>
+        <label>
+          Target Audience
+          <input type="text" name="audience" required placeholder="Gen Z + Millennial shoppers" />
+        </label>
+        <label>
+          Brand Personality
+          <input type="text" name="personality" required placeholder="Playful, elegant, bold" />
+        </label>
+        <button class="primary-button" type="submit">Generate Brand</button>
+      </form>
+
+      <div class="score">
+        <div class="score-header">
+          <span>Brand Score</span>
+          <span id="scoreValue">0%</span>
+        </div>
+        <div class="score-bar">
+          <div class="score-progress" id="scoreProgress"></div>
+        </div>
+      </div>
+
+      <div class="workflow">
+        <h3>Visual Workflow</h3>
+        <div class="workflow-grid">
+          <div class="workflow-card">Brand Identity</div>
+          <div class="workflow-card">Visual Style</div>
+          <div class="workflow-card">Marketing Plan</div>
+          <div class="workflow-card">Growth Strategy</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel chat-panel">
+      <div class="chat-header">
+        <h2>BrandCraft AI</h2>
+        <span class="typing" id="typing">Crafting your brand…</span>
+      </div>
+      <div class="chat-content" id="chatContent">
+        <div class="chat-placeholder">Your brand story will appear here.</div>
+      </div>
+
+      <div class="logo-section">
+        <div class="logo-header">
+          <h3>AI Logo</h3>
+          <br>
+          <button class="ghost-button" id="regenLogo">Regenerate Logo</button>
+        </div>
+        <div class="logo-preview" id="logoPreview">
+          <img src="" alt="Generated logo" id="logoImage" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
