@@ -1,4 +1,4 @@
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://brandcraft-ihtv.onrender.com';
 
 const carousel = document.getElementById('carousel');
 const dotsContainer = document.getElementById('carouselDots');
